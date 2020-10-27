@@ -32,17 +32,9 @@ namespace NineChronicles.Standalone.GraphTypes
                         NineChroniclesNodeService service = context.Source;
                         // FIXME: Private key may not exists at this moment.
                         PrivateKey privateKey = service.PrivateKey;
-                        ActivationKey activationKey = ActivationKey.Decode(encodedActivationKey);
+                        (ActivationKey activationKey, PendingActivationState pendingActivationState) = ActivationKey.Create(privateKey, new byte[10]);
                         BlockChain<NineChroniclesActionType> blockChain = service.Swarm.BlockChain;
-                        IValue state = blockChain.GetState(activationKey.PendingAddress);
 
-                        if (!(state is Bencodex.Types.Dictionary asDict))
-                        {
-                            context.Errors.Add(new ExecutionError("The given key was already expired."));
-                            return false;
-                        }
-
-                        var pendingActivationState = new PendingActivationState(asDict);
                         ActivateAccount action = activationKey.CreateActivateAccount(
                             pendingActivationState.Nonce);
 

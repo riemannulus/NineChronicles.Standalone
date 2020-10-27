@@ -17,6 +17,8 @@ namespace NineChronicles.Standalone
             _difficulty = difficulty;
         }
 
+        public int MaxTransactionsPerBlock { get; }
+
         public bool DoesTransactionFollowsPolicy(
             Transaction<PolymorphicAction<ActionBase>> transaction,
             BlockChain<PolymorphicAction<ActionBase>> blockChain
@@ -30,6 +32,11 @@ namespace NineChronicles.Standalone
         public long GetNextBlockDifficulty(BlockChain<PolymorphicAction<ActionBase>> blocks)
         {
             return blocks.Tip is null ? 0 : _difficulty;
+        }
+
+        public int GetMaxBlockBytes(long index)
+        {
+            throw new System.NotImplementedException();
         }
 
         public IAction BlockAction { get; }

@@ -64,6 +64,7 @@ namespace Libplanet.Standalone.Tests.Hosting
         private class BlockPolicy : IBlockPolicy<DummyAction>
         {
             public IAction BlockAction => null;
+            public int MaxTransactionsPerBlock { get; }
 
             public bool DoesTransactionFollowsPolicy(
                 Transaction<DummyAction> transaction,
@@ -76,6 +77,11 @@ namespace Libplanet.Standalone.Tests.Hosting
             public long GetNextBlockDifficulty(BlockChain<DummyAction> blocks)
             {
                 return 0;
+            }
+
+            public int GetMaxBlockBytes(long index)
+            {
+                throw new NotImplementedException();
             }
 
             public InvalidBlockException ValidateNextBlock(BlockChain<DummyAction> blocks, Block<DummyAction> nextBlock)
